@@ -16,11 +16,14 @@
 .brand-mark span { width: 9px; height: 9px; border-radius: 50%; }
 
 .login-card { width: min(100%, 430px); margin: 0 auto; padding: 28px 26px 25px; border: 1px solid #cfe0d7; border-radius: 3px; background: #fff; box-shadow: 0 15px 34px rgba(30, 69, 50, 0.05); }
+.signup-card { padding-bottom: 25px; }
 .login-heading { margin-bottom: 27px; text-align: center; }
 .login-heading h1 { margin: 0 0 5px; color: #17212c; font-size: 21px; font-weight: 700; line-height: 1.25; }
 .login-heading p, .signup-block p { margin: 0; color: #69727d; font-size: 14px; }
 .field-group { margin-bottom: 17px; }
+.signup-password-field { margin-bottom: 20px; }
 .field-group label { display: block; margin: 0 0 7px; color: #46515d; font-size: 13px; font-weight: 600; }
+.field-group small { display: block; margin-top: 6px; color: #87919c; font-size: 11px; }
 .input-shell { display: flex; min-height: 48px; align-items: center; gap: 10px; padding: 0 12px; border: 1px solid #d5dce1; border-radius: 7px; background: #fff; transition: border-color 160ms ease, box-shadow 160ms ease; }
 .input-shell:focus-within { border-color: #1e7b4a; box-shadow: 0 0 0 3px rgba(30, 123, 74, 0.12); }
 .input-shell svg, .icon-button svg, .signup-button svg { width: 18px; height: 18px; flex: 0 0 auto; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; stroke-width: 1.6; }

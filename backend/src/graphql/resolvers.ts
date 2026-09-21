@@ -21,8 +21,8 @@ const resolvers = {
     },
   },
   Mutation: {
-    signUp: async (_: unknown, { email, password }: any) => {
-      return AuthService.signUp(email, password);
+    signUp: async (_: unknown, { fullName, email, password }: any) => {
+      return AuthService.signUp(fullName, email, password);
     },
     signIn: async (_: unknown, { email, password }: any) => {
       return AuthService.signIn(email, password);

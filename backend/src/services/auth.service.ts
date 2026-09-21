@@ -5,10 +5,11 @@ import { generateToken, verifyToken } from '../utils/jwt';
 const prisma = new PrismaClient();
 
 export const AuthService = {
-  async signUp(email: string, password: string) {
+  async signUp(fullName: string, email: string, password: string) {
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await prisma.user.create({
       data: {
+        fullName,
         email,
         password: hashedPassword,
       },
