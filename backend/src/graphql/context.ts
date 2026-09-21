@@ -4,12 +4,15 @@ import { verifyToken } from '../utils/jwt';
 interface Context {
   req: Request;
   res: Response;
-  user?: unknown;
+  user?: { id: string };
 }
 
 const createContext = ({ req, res }: { req: Request; res: Response }): Context => {
-  const token = req.headers.authorization || '';
-  const user = verifyToken(token.replace(/^Bearer\s+/i, ''));
+  const authorization = req.headers.authorization || '';
+  const payload = verifyToken(authorization.replace(/^Bearer\s+/i, ''));
+  const user = payload && typeof payload !== 'string' && 'userId' in payload
+    ? { id: String(payload.userId) }
+    : undefined;
 
   return { req, res, user };
 };

@@ -9,7 +9,7 @@ const resolvers = {
   Query: {
     me: async (_: unknown, __: unknown, { user }: any) => {
       if (!user) throw new Error('Not authenticated');
-      return user;
+      return AuthService.getUserById(user.id);
     },
     categories: async (_: unknown, __: unknown, { user }: any) => {
       if (!user) throw new Error('Not authenticated');
@@ -39,9 +39,9 @@ const resolvers = {
       if (!user) throw new Error('Not authenticated');
       return Boolean(await CategoryService.deleteCategory(id, String(user.id)));
     },
-    createTransaction: async (_: unknown, { amount, description, categoryId }: any, { user }: any) => {
+    createTransaction: async (_: unknown, { amount, description, categoryId, type }: any, { user }: any) => {
       if (!user) throw new Error('Not authenticated');
-      return TransactionService.createTransaction(String(user.id), categoryId, amount, description);
+      return TransactionService.createTransaction(String(user.id), categoryId, amount, description, type);
     },
     editTransaction: async (_: unknown, { id, amount, description }: any, { user }: any) => {
       if (!user) throw new Error('Not authenticated');

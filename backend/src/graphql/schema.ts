@@ -19,11 +19,13 @@ const typeDefs = gql`
   type Transaction {
     id: ID!
     amount: Float!
+    type: TransactionType!
     description: String!
     categoryId: ID!
     userId: ID!
     createdAt: String!
     updatedAt: String!
+    category: Category!
   }
 
   type Query {
@@ -38,7 +40,7 @@ const typeDefs = gql`
     createCategory(name: String!): Category!
     editCategory(id: ID!, name: String!): Category!
     deleteCategory(id: ID!): Boolean!
-    createTransaction(amount: Float!, description: String!, categoryId: ID!): Transaction!
+    createTransaction(amount: Float!, description: String!, categoryId: ID!, type: TransactionType!): Transaction!
     editTransaction(id: ID!, amount: Float, description: String): Transaction!
     deleteTransaction(id: ID!): Boolean!
   }
@@ -46,6 +48,11 @@ const typeDefs = gql`
   type AuthPayload {
     token: String!
     user: User!
+  }
+
+  enum TransactionType {
+    EXPENSE
+    INCOME
   }
 `;
 
