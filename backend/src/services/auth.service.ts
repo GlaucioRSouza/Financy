@@ -1,6 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import bcrypt from 'bcryptjs';
-import jwt from '../utils/jwt';
+import { generateToken, verifyToken } from '../utils/jwt';
 
 const prisma = new PrismaClient();
 
@@ -25,13 +25,13 @@ export const AuthService = {
       throw new Error('Invalid credentials');
     }
 
-    const token = jwt.sign({ userId: user.id });
+    const token = generateToken(String(user.id));
     return { token, user };
   },
 
   async validateToken(token: string) {
     try {
-      const payload = jwt.verify(token);
+      const payload = verifyToken(token);
       return payload;
     } catch (error) {
       throw new Error('Invalid token');

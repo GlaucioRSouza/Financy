@@ -1,60 +1,55 @@
-import { IResolvers } from 'graphql-tools';
-import { User } from '../prisma/generated/type-graphql'; // Ajuste o caminho conforme necessário
-import { Category } from '../prisma/generated/type-graphql'; // Ajuste o caminho conforme necessário
-import { Transaction } from '../prisma/generated/type-graphql'; // Ajuste o caminho conforme necessário
 import { AuthService } from '../services/auth.service';
-import { CategoryService } from '../services/category.service';
+import { categoryService as CategoryService } from '../services/category.service';
 import { TransactionService } from '../services/transaction.service';
 
-const authService = new AuthService();
-const categoryService = new CategoryService();
-const transactionService = new TransactionService();
-
-const resolvers: IResolvers = {
+const resolvers = {
+  Transaction: {
+    description: (transaction: { title: string }) => transaction.title,
+  },
   Query: {
-    me: async (_: any, __: any, { userId }: { userId: string }) => {
-      if (!userId) throw new Error('Not authenticated');
-      return await authService.getUserById(userId);
+    me: async (_: unknown, __: unknown, { user }: any) => {
+      if (!user) throw new Error('Not authenticated');
+      return user;
     },
-    categories: async (_: any, __: any, { userId }: { userId: string }) => {
-      if (!userId) throw new Error('Not authenticated');
-      return await categoryService.getCategoriesByUserId(userId);
+    categories: async (_: unknown, __: unknown, { user }: any) => {
+      if (!user) throw new Error('Not authenticated');
+      return CategoryService.getCategoriesByUserId(String(user.id));
     },
-    transactions: async (_: any, __: any, { userId }: { userId: string }) => {
-      if (!userId) throw new Error('Not authenticated');
-      return await transactionService.getTransactionsByUserId(userId);
+    transactions: async (_: unknown, __: unknown, { user }: any) => {
+      if (!user) throw new Error('Not authenticated');
+      return TransactionService.listTransactions(String(user.id));
     },
   },
   Mutation: {
-    signUp: async (_: any, { input }: { input: any }) => {
-      return await authService.signUp(input);
+    signUp: async (_: unknown, { email, password }: any) => {
+      return AuthService.signUp(email, password);
     },
-    signIn: async (_: any, { input }: { input: any }) => {
-      return await authService.signIn(input);
+    signIn: async (_: unknown, { email, password }: any) => {
+      return AuthService.signIn(email, password);
     },
-    createCategory: async (_: any, { input }: { input: any }, { userId }: { userId: string }) => {
-      if (!userId) throw new Error('Not authenticated');
-      return await categoryService.createCategory(input, userId);
+    createCategory: async (_: unknown, { name }: any, { user }: any) => {
+      if (!user) throw new Error('Not authenticated');
+      return CategoryService.createCategory(String(user.id), name);
     },
-    updateCategory: async (_: any, { id, input }: { id: string; input: any }, { userId }: { userId: string }) => {
-      if (!userId) throw new Error('Not authenticated');
-      return await categoryService.updateCategory(id, input, userId);
+    editCategory: async (_: unknown, { id, name }: any, { user }: any) => {
+      if (!user) throw new Error('Not authenticated');
+      return CategoryService.updateCategory(id, String(user.id), name);
     },
-    deleteCategory: async (_: any, { id }: { id: string }, { userId }: { userId: string }) => {
-      if (!userId) throw new Error('Not authenticated');
-      return await categoryService.deleteCategory(id, userId);
+    deleteCategory: async (_: unknown, { id }: any, { user }: any) => {
+      if (!user) throw new Error('Not authenticated');
+      return Boolean(await CategoryService.deleteCategory(id, String(user.id)));
     },
-    createTransaction: async (_: any, { input }: { input: any }, { userId }: { userId: string }) => {
-      if (!userId) throw new Error('Not authenticated');
-      return await transactionService.createTransaction(input, userId);
+    createTransaction: async (_: unknown, { amount, description, categoryId }: any, { user }: any) => {
+      if (!user) throw new Error('Not authenticated');
+      return TransactionService.createTransaction(String(user.id), categoryId, amount, description);
     },
-    updateTransaction: async (_: any, { id, input }: { id: string; input: any }, { userId }: { userId: string }) => {
-      if (!userId) throw new Error('Not authenticated');
-      return await transactionService.updateTransaction(id, input, userId);
+    editTransaction: async (_: unknown, { id, amount, description }: any, { user }: any) => {
+      if (!user) throw new Error('Not authenticated');
+      return TransactionService.editTransaction(id, String(user.id), { amount, description });
     },
-    deleteTransaction: async (_: any, { id }: { id: string }, { userId }: { userId: string }) => {
-      if (!userId) throw new Error('Not authenticated');
-      return await transactionService.deleteTransaction(id, userId);
+    deleteTransaction: async (_: unknown, { id }: any, { user }: any) => {
+      if (!user) throw new Error('Not authenticated');
+      return Boolean(await TransactionService.deleteTransaction(id, String(user.id)));
     },
   },
 };

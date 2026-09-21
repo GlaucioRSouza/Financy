@@ -3,7 +3,6 @@ import { gql } from 'apollo-server';
 const typeDefs = gql`
   type User {
     id: ID!
-    username: String!
     email: String!
     transactions: [Transaction!]!
     categories: [Category!]!
@@ -27,14 +26,14 @@ const typeDefs = gql`
   }
 
   type Query {
-    getUser(id: ID!): User
-    listCategories: [Category!]!
-    listTransactions: [Transaction!]!
+    me: User
+    categories: [Category!]!
+    transactions: [Transaction!]!
   }
 
   type Mutation {
-    signUp(username: String!, email: String!, password: String!): User!
-    signIn(email: String!, password: String!): String! # Returns JWT
+    signUp(email: String!, password: String!): User!
+    signIn(email: String!, password: String!): AuthPayload!
     createCategory(name: String!): Category!
     editCategory(id: ID!, name: String!): Category!
     deleteCategory(id: ID!): Boolean!
@@ -42,6 +41,12 @@ const typeDefs = gql`
     editTransaction(id: ID!, amount: Float, description: String): Transaction!
     deleteTransaction(id: ID!): Boolean!
   }
+
+  type AuthPayload {
+    token: String!
+    user: User!
+  }
 `;
 
+export { typeDefs };
 export default typeDefs;

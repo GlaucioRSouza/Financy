@@ -7,7 +7,7 @@ export const categoryService = {
     return await prisma.category.create({
       data: {
         name,
-        userId,
+        userId: Number(userId),
       },
     });
   },
@@ -15,8 +15,8 @@ export const categoryService = {
   updateCategory: async (id: string, userId: string, name: string) => {
     return await prisma.category.updateMany({
       where: {
-        id,
-        userId,
+        id: Number(id),
+        userId: Number(userId),
       },
       data: {
         name,
@@ -27,8 +27,8 @@ export const categoryService = {
   deleteCategory: async (id: string, userId: string) => {
     return await prisma.category.deleteMany({
       where: {
-        id,
-        userId,
+        id: Number(id),
+        userId: Number(userId),
       },
     });
   },
@@ -36,7 +36,7 @@ export const categoryService = {
   getCategoriesByUserId: async (userId: string) => {
     return await prisma.category.findMany({
       where: {
-        userId,
+        userId: Number(userId),
       },
     });
   },

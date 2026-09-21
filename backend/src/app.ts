@@ -1,9 +1,9 @@
 import express from 'express';
 import { ApolloServer } from 'apollo-server-express';
 import { createServer } from 'http';
-import { schema } from './graphql/schema';
-import { resolvers } from './graphql/resolvers';
-import { context } from './graphql/context';
+import schema from './graphql/index';
+import resolvers from './graphql/resolvers';
+import createContext from './graphql/context';
 import cors from 'cors';
 
 const app = express();
@@ -15,13 +15,17 @@ app.use(express.json());
 const server = new ApolloServer({
     schema,
     resolvers,
-    context,
+    context: ({ req, res }) => createContext({ req, res }),
 });
-
-server.applyMiddleware({ app });
 
 const PORT = process.env.PORT || 4000;
 
-httpServer.listen(PORT, () => {
-    console.log(`🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`);
-});
+async function startServer() {
+    await server.start();
+    server.applyMiddleware({ app });
+    httpServer.listen(PORT, () => {
+        console.log(`Server ready at http://localhost:${PORT}${server.graphqlPath}`);
+    });
+}
+
+startServer();

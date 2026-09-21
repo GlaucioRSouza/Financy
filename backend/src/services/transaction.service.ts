@@ -6,10 +6,10 @@ export const TransactionService = {
     createTransaction: async (userId: string, categoryId: string, amount: number, description: string) => {
         return await prisma.transaction.create({
             data: {
-                userId,
-                categoryId,
+                userId: Number(userId),
+                categoryId: Number(categoryId),
                 amount,
-                description,
+                title: description,
             },
         });
     },
@@ -17,18 +17,22 @@ export const TransactionService = {
     editTransaction: async (transactionId: string, userId: string, data: Partial<{ categoryId: string; amount: number; description: string }>) => {
         return await prisma.transaction.updateMany({
             where: {
-                id: transactionId,
-                userId,
+                id: Number(transactionId),
+                userId: Number(userId),
             },
-            data,
+            data: {
+                ...(data.categoryId !== undefined && { categoryId: Number(data.categoryId) }),
+                ...(data.amount !== undefined && { amount: data.amount }),
+                ...(data.description !== undefined && { title: data.description }),
+            },
         });
     },
 
     deleteTransaction: async (transactionId: string, userId: string) => {
         return await prisma.transaction.deleteMany({
             where: {
-                id: transactionId,
-                userId,
+                id: Number(transactionId),
+                userId: Number(userId),
             },
         });
     },
@@ -36,7 +40,7 @@ export const TransactionService = {
     listTransactions: async (userId: string) => {
         return await prisma.transaction.findMany({
             where: {
-                userId,
+                userId: Number(userId),
             },
         });
     },
