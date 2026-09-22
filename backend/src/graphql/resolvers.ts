@@ -27,6 +27,11 @@ const resolvers = {
     signIn: async (_: unknown, { email, password }: any) => {
       return AuthService.signIn(email, password);
     },
+    updateProfile: async (_: unknown, { fullName }: any, { user }: any) => {
+      if (!user) throw new Error('Not authenticated');
+      if (!fullName.trim()) throw new Error('Full name is required');
+      return AuthService.updateProfile(String(user.id), fullName.trim());
+    },
     createCategory: async (_: unknown, { name, description, icon, color }: any, { user }: any) => {
       if (!user) throw new Error('Not authenticated');
       return CategoryService.createCategory(String(user.id), name, description ?? '', icon ?? 'wallet', color ?? 'green');

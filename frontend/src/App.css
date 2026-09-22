@@ -73,6 +73,8 @@
 .dashboard-nav button.active::after { position: absolute; right: 0; bottom: -1px; left: 0; height: 2px; content: ''; background: #1d7548; }
 .user-menu { display: flex; align-items: center; justify-self: end; gap: 12px; }
 .user-menu > span { display: grid; width: 32px; height: 32px; place-items: center; border-radius: 50%; color: #45515e; background: #e3e7ea; font-size: 11px; font-weight: 700; }
+.avatar-button { display: grid; width: 32px; height: 32px; place-items: center; padding: 0; border: 0; border-radius: 50%; color: #45515e; background: #e3e7ea; font-size: 11px; font-weight: 700; }
+.avatar-button:hover { color: #1e7b4a; background: #d7e8de; }
 .user-menu button { display: grid; padding: 3px; border: 0; color: #65717d; background: transparent; }
 .user-menu .ui-icon { width: 16px; height: 16px; }
 .dashboard-content { width: min(100% - 80px, 1130px); margin: 0 auto; padding: 42px 0 60px; }
@@ -148,6 +150,7 @@
 .pagination button { display: grid; width: 25px; height: 25px; place-items: center; padding: 0; border: 1px solid #dbe2e6; border-radius: 5px; color: #65717d; background: #fff; font-size: 11px; }
 .pagination button.active { border-color: #1e7b4a; color: #fff; background: #1e7b4a; }
 .pagination button:disabled { cursor: default; opacity: .45; }
+.profile-page { display: flex; justify-content: center; padding: 35px 0 60px; }.profile-card { width: min(100%, 430px); padding: 24px; border: 1px solid #dfe5e8; border-radius: 3px; background: #fff; box-shadow: 0 4px 18px rgba(23, 43, 35, .035); }.profile-identity { text-align: center; }.profile-avatar { display: grid; width: 48px; height: 48px; margin: 0 auto 14px; place-items: center; border-radius: 50%; color: #263342; background: #dce1e7; font-size: 16px; font-weight: 600; }.profile-identity h1 { margin: 0 0 3px; color: #1c2733; font-size: 16px; }.profile-identity p { margin: 0; color: #87919c; font-size: 12px; }.profile-divider { height: 1px; margin: 23px 0 25px; background: #e8edef; }.profile-card .field-group { margin-bottom: 16px; }.disabled-input { position: relative; background: #f8fafb; }.disabled-input input { color: #89939d; }.disabled-input small { position: absolute; top: 100%; left: 0; margin-top: 5px; color: #87919c; font-size: 10px; }.profile-logout { display: flex; width: 100%; min-height: 42px; align-items: center; justify-content: center; gap: 8px; margin-top: 12px; border: 1px solid #d8e0e4; border-radius: 6px; color: #4f5c69; background: #fff; font-size: 13px; font-weight: 600; }.profile-logout .ui-icon { color: #ed4b4b; width: 16px; }.profile-logout:hover { border-color: #ed4b4b; color: #ed4b4b; }
 
 @media (max-width: 760px) {
   .transactions-heading { align-items: flex-start; flex-direction: column; gap: 18px; }

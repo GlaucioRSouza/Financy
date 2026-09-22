@@ -9,6 +9,13 @@ export const AuthService = {
     return prisma.user.findUnique({ where: { id: Number(id) } });
   },
 
+  async updateProfile(id: string, fullName: string) {
+    return prisma.user.update({
+      where: { id: Number(id) },
+      data: { fullName },
+    });
+  },
+
   async signUp(fullName: string, email: string, password: string) {
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await prisma.user.create({
