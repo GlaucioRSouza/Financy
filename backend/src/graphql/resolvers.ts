@@ -27,25 +27,26 @@ const resolvers = {
     signIn: async (_: unknown, { email, password }: any) => {
       return AuthService.signIn(email, password);
     },
-    createCategory: async (_: unknown, { name }: any, { user }: any) => {
+    createCategory: async (_: unknown, { name, description, icon, color }: any, { user }: any) => {
       if (!user) throw new Error('Not authenticated');
-      return CategoryService.createCategory(String(user.id), name);
+      return CategoryService.createCategory(String(user.id), name, description ?? '', icon ?? 'wallet', color ?? 'green');
     },
-    editCategory: async (_: unknown, { id, name }: any, { user }: any) => {
+    editCategory: async (_: unknown, { id, name, description, icon, color }: any, { user }: any) => {
       if (!user) throw new Error('Not authenticated');
-      return CategoryService.updateCategory(id, String(user.id), name);
+      return CategoryService.updateCategory(id, String(user.id), name, description ?? '', icon ?? 'wallet', color ?? 'green');
     },
     deleteCategory: async (_: unknown, { id }: any, { user }: any) => {
       if (!user) throw new Error('Not authenticated');
-      return Boolean(await CategoryService.deleteCategory(id, String(user.id)));
+      const result = await CategoryService.deleteCategory(id, String(user.id));
+      return result.count > 0;
     },
     createTransaction: async (_: unknown, { amount, description, categoryId, type }: any, { user }: any) => {
       if (!user) throw new Error('Not authenticated');
       return TransactionService.createTransaction(String(user.id), categoryId, amount, description, type);
     },
-    editTransaction: async (_: unknown, { id, amount, description }: any, { user }: any) => {
+    editTransaction: async (_: unknown, { id, amount, description, categoryId, type }: any, { user }: any) => {
       if (!user) throw new Error('Not authenticated');
-      return TransactionService.editTransaction(id, String(user.id), { amount, description });
+      return TransactionService.editTransaction(id, String(user.id), { amount, description, categoryId, type });
     },
     deleteTransaction: async (_: unknown, { id }: any, { user }: any) => {
       if (!user) throw new Error('Not authenticated');

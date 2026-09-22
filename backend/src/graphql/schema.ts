@@ -12,6 +12,9 @@ const typeDefs = gql`
   type Category {
     id: ID!
     name: String!
+    description: String!
+    icon: String!
+    color: String!
     userId: ID!
     transactions: [Transaction!]!
   }
@@ -37,11 +40,11 @@ const typeDefs = gql`
   type Mutation {
     signUp(fullName: String!, email: String!, password: String!): User!
     signIn(email: String!, password: String!): AuthPayload!
-    createCategory(name: String!): Category!
-    editCategory(id: ID!, name: String!): Category!
+    createCategory(name: String!, description: String, icon: String, color: String): Category!
+    editCategory(id: ID!, name: String!, description: String, icon: String, color: String): Category!
     deleteCategory(id: ID!): Boolean!
     createTransaction(amount: Float!, description: String!, categoryId: ID!, type: TransactionType!): Transaction!
-    editTransaction(id: ID!, amount: Float, description: String): Transaction!
+    editTransaction(id: ID!, amount: Float, description: String, categoryId: ID, type: TransactionType): Transaction!
     deleteTransaction(id: ID!): Boolean!
   }
 

@@ -17,7 +17,7 @@ export const TransactionService = {
     },
 
     editTransaction: async (transactionId: string, userId: string, data: Partial<{ categoryId: string; amount: number; description: string; type: string }>) => {
-        return await prisma.transaction.updateMany({
+        return await prisma.transaction.update({
             where: {
                 id: Number(transactionId),
                 userId: Number(userId),
@@ -28,6 +28,7 @@ export const TransactionService = {
                                 ...(data.type !== undefined && { type: data.type }),
                 ...(data.description !== undefined && { title: data.description }),
             },
+                            include: { category: true },
         });
     },
 

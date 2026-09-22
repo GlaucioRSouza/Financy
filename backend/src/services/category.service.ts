@@ -3,24 +3,25 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 export const categoryService = {
-  createCategory: async (userId: string, name: string) => {
+  createCategory: async (userId: string, name: string, description: string, icon: string, color: string) => {
     return await prisma.category.create({
       data: {
         name,
+        description,
+        icon,
+        color,
         userId: Number(userId),
       },
     });
   },
 
-  updateCategory: async (id: string, userId: string, name: string) => {
-    return await prisma.category.updateMany({
+  updateCategory: async (id: string, userId: string, name: string, description: string, icon: string, color: string) => {
+    return await prisma.category.update({
       where: {
         id: Number(id),
         userId: Number(userId),
       },
-      data: {
-        name,
-      },
+      data: { name, description, icon, color },
     });
   },
 
